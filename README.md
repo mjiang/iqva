@@ -1,4 +1,4 @@
-# AiR: Immersive Question-directed Visual Attention
+# IQVA: Immersive Question-directed Visual Attention
 This is the official repository for Immersive Question-directed Visual Attention (IQVA) datasets. It provides the first visual attention dataset that takes into account the correctness of attention, and a framework to simultaneously predict both the correct and incorrect attentions. An example illustrating the correctness of attention in the Immersive Question Answering context is shown below:
 
 <!-- ![teaser](data/teaser.jpg?raw=true) -->
