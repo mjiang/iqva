@@ -58,7 +58,7 @@ class SphereCE(nn.Module):
         return torch.sum(loss) / out.size(0)
 
 
-def NSS(input,fixation):    
+def NSS(input,fixation):
     input = input.view(input.size(0), input.size(1), -1)
     # input = torch.div(input,input.max(-1,keepdim=True)[0].expand_as(input)+epsilon)
     fixation = fixation.view(fixation.size(0),fixation.size(1),-1)
@@ -67,7 +67,7 @@ def NSS(input,fixation):
 
     return torch.mean(loss)
 
-def CC(input,fixmap,weight=None): 
+def CC(input,fixmap,weight=None):
     if weight is not None:
         input = torch.mul(input,weight)
         fixmap = torch.mul(fixmap,weight)
@@ -118,7 +118,7 @@ def CC_diff(pos,neg,gt_diff):
                 pos_ = torch.mul(pos_,gt_diff[i,j][gt_diff[i,j]>threshold])
                 neg_ = torch.mul(neg_,gt_diff[i,j][gt_diff[i,j]>threshold])
                 loss = loss + CC_1d(pos_,neg_)
-                count += 1            
+                count += 1
 
     if count>1:
         return loss/count
@@ -128,7 +128,7 @@ def CC_diff(pos,neg,gt_diff):
 def Corr_diff(pred_diff,gt_diff,abs_diff):
     loss = 0
     threshold = 0.4
-    count = 0 
+    count = 0
     batch, seq, w, h = pred_diff.size()
     for i in range(batch):
         for j in range(seq):
@@ -143,7 +143,7 @@ def Corr_diff(pred_diff,gt_diff,abs_diff):
         return torch.zeros(1).mean().cuda()
 
 
-def SIM(input,fixmap): 
+def SIM(input,fixmap):
     input = input.view(input.size(0), input.size(1), -1)
     fixmap = fixmap.view(fixmap.size(0),fixmap.size(1),-1)
     fixmap = torch.div(fixmap,fixmap.sum(-1,keepdim=True).expand_as(fixmap))
@@ -199,7 +199,7 @@ def cosine_sim(input,target):
 def cosine_sim_threshold(input,target,abs_diff):
     loss = 0
     threshold = 0.3
-    count = 0 
+    count = 0
     batch,seq,h,w = input.size()
     input = input.view(batch,seq,-1)
     target = target.view(batch,seq,-1)
@@ -264,7 +264,7 @@ def LL(input,fixmap):
     return -torch.sum(loss)
 
 def difference_loss_mse(input,target,weight=None):
-    input = 2*input[:,:,0]-input[:,:,1]
+    input = input[:,:,0]-input[:,:,1]
     if weight is None:
         loss = 0.5*(input-target)**2 # originally without 0.5
     else:
@@ -333,5 +333,3 @@ class Discriminator_warpper(nn.Module):
         pred_pos = self.discriminator_2(x_pos,y_pos)
         pred_neg = self.discriminator_2(x_neg,y_neg)
         return pred_diff, pred_pos, pred_neg
-
-
